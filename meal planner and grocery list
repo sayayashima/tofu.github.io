@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Meal Planner Grocery List</title>
+  <style>
+    /* Reset list style */
+    #list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Grocery list items */
+    #list li {
+      background: #f0f8ff; /* light blue background */
+      margin: 6px 0;
+      padding: 8px 12px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      transition: background 0.3s ease;
+      border: 1px solid #cce0ff; /* subtle border */
+    }
+
+    #list li:hover {
+      background: #e6f0ff; /* slightly darker blue on hover */
+    }
+
+    /* Delete button styling */
+    .delete-btn {
+      background-color: #1e90ff; /* DodgerBlue */
+      border: none;
+      color: white;
+      font-size: 14px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.25s ease, transform 0.2s ease;
+    }
+
+    .delete-btn:hover {
+      background-color: #005cbf; /* darker blue */
+      transform: scale(1.1);
+    }
+
+    /* Generate + Clear + Search buttons */
+    #generate-btn,
+    #clear-btn,
+    #search-btn {
+      background-color: #4682b4; /* SteelBlue */
+      border: none;
+      color: white;
+      padding: 10px 18px;
+      margin: 8px 4px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: bold;
+      transition: background-color 0.25s ease, transform 0.2s ease;
+    }
+
+    #generate-btn:hover,
+    #clear-btn:hover,
+    #search-btn:hover {
+      background-color: #315f86; /* darker steel blue */
+      transform: translateY(-2px);
+    }
+
+    /* Clear button distinct color */
+    #clear-btn {
+      background-color: #5dade2; /* lighter sky blue */
+    }
+
+    #clear-btn:hover {
+      background-color: #2e86c1; /* deeper sky blue */
+    }
+  </style>
+</head>
+<body>
+  <h1>Meal Planner Grocery List</h1>
+
+  <h2>Select Meals</h2>
+  <label><input type="checkbox" name="meal" value="Spaghetti"> Spaghetti</label><br>
+  <label><input type="checkbox" name="meal" value="Tacos"> Tacos</label><br>
+  <label><input type="checkbox" name="meal" value="Salad"> Salad</label><br>
+  <label><input type="checkbox" name="meal" value="Pancakes"> Pancakes</label><br>
+  <label><input type="checkbox" name="meal" value="Biriani"> Biriani</label><br>
+  <label><input type="checkbox" name="meal" value="Agepan"> Agepan</label><br>
+  <label><input type="checkbox" name="meal" value="Icecream"> Icecream</label><br>
+  <label><input type="checkbox" name="meal" value="Sushi"> Sushi</label><br>
+  <label><input type="checkbox" name="meal" value="Soba"> Soba</label><br>
+  <label><input type="checkbox" name="meal" value="Mamemoyashi"> Mamemoyashi</label><br>
+  <label><input type="checkbox" name="meal" value="Omurice"> Omurice</label><br>
+  <label><input type="checkbox" name="meal" value="Goya champuru"> Goya champuru</label><br>
+  <label><input type="checkbox" name="meal" value="Tacorice"> Tacorice</label><br>
+  <label><input type="checkbox" name="meal" value="Hiyashi chuuka"> Hiyashi chuuka</label><br>
+  <label><input type="checkbox" name="meal" value="Thai green curry"> Thai green curry</label><br>
+  <label><input type="checkbox" name="meal" value="Ramen"> Ramen</label><br>
+  <label><input type="checkbox" name="meal" value="Steak"> Steak</label><br>
+  <label><input type="checkbox" name="meal" value="Poutine"> Poutine</label><br>
+  <label><input type="checkbox" name="meal" value="Karage"> Karage</label><br>
+  <label><input type="checkbox" name="meal" value="Carbonara"> Carbonara</label><br>
+  <label><input type="checkbox" name="meal" value="Pizza"> Pizza</label><br>
+
+  <button id="generate-btn">Generate Grocery List</button>
+  <button id="clear-btn">Clear List</button>
+
+  <h2>Your Grocery List</h2>
+  <ul id="list"></ul>
+ 
+  <h3>Search by Ingredient</h3>
+  <input id="ingredient-input" type="text" placeholder="Type an ingredient">
+  <button id="search-btn">Search</button>
+  <div id="ingredient-results"></div>
+
+  
+  <!-- JavaScript -->
+  <script>
+    // ---------------------------
+    // Data
+    // ---------------------------
+    const mealIngredients = {
+      "Spaghetti": ["Pasta", "Tomato Sauce", "Garlic", "Olive Oil"],
+      "Tacos": ["Tortillas", "Ground Beef", "Lettuce", "Cheese", "Salsa"],
+      "Salad": ["Lettuce", "Tomato", "Cucumber", "Olive Oil", "Vinegar"],
+      "Pancakes": ["Flour", "Eggs", "Milk", "Baking Powder", "Maple Syrup"],
+      "Biriani": ["Basmati rice", "Chicken", "Yogurt", "Onion", "Garlic", "Ginger", "Garam masala"],
+      "Agepan": ["Bread roll", "Sugar", "Milk", "Oil", "Cinnamon"],
+      "Icecream": ["Heavy cream", "Milk", "Sugar", "Vanilla"],
+      "Sushi": ["Rice", "Rice vinegar", "Sugar", "Salt", "Nori", "Soy sauce", "Wasabi"],
+      "Soba": ["Buckwheat noodles", "Dashi", "Mirin", "Water"],
+      "Mamemoyashi": ["Bean sprouts", "Soy sauce", "Sesame oil", "Garlic"],
+      "Omurice": ["Cooked rice", "Chicken", "Onion", "Ketchup", "Egg", "Butter"],
+      "Goya champuru": ["Bitter melon (goya)", "Pork belly", "Tofu", "Egg", "Soy sauce", "Bonito flakes", "Salt", "Sesame oil"],
+      "Tacorice": ["Ground beef", "Taco seasoning", "Cooked rice", "Lettuce", "Tomato", "Cheese", "Salsa"],
+      "Hiyashi chuuka": ["Noodles", "Cucumber", "Ham", "Egg", "Tomato", "Vinegar", "Soy sauce", "Sugar", "Sesame oil"],
+      "Thai green curry": ["Lemongrass", "Coriander leaves", "Green chilies", "Basil leaves", "Coriander seeds", "Cumin seeds", "Black peppercorns", "Onion", "Spring onion", "Garlic cloves", "Ginger", "Coconut milk", "Thai green curry paste", "Broccoli florets", "Carrot", "Green bell pepper", "Zucchini", "Water", "Brown sugar", "Basil leaves for garnish", "Oil", "Salt"],
+      "Ramen": ["Ramen noodles", "Chicken broth", "Soy sauce", "Miso paste", "Garlic", "Ginger", "Green onions", "Soft-boiled eggs", "Nori (seaweed)", "Sliced pork (chashu)"],
+      "Steak": ["Steak", "Salt", "Black pepper", "Garlic", "Butter", "Rosemary"],
+      "Poutine": ["French fries", "Cheese curds", "Gravy"],
+      "Karage": ["Chicken thighs", "Soy sauce", "Sake", "Mirin", "Ginger", "Garlic", "Potato starch or flour", "Oil for frying"],
+      "Carbonara": ["Spaghetti", "Pancetta or bacon", "Eggs", "Parmesan or Pecorino romano", "Black pepper", "Salt"],
+      "Pizza": ["Pizza dough", "Tomato sauce", "Mozzarella cheese", "Olive oil", "Toppings of choice (pepperoni, mushrooms, bell peppers, etc.)"]
+    };
+  
+    // ---------------------------
+// DOM references (validate IDs exist)
+// ---------------------------
+const listElement = document.getElementById("list");
+const generateButton = document.getElementById("generate-btn");
+const clearButton = document.getElementById("clear-btn");
+const searchButton = document.getElementById("search-btn");
+const ingredientInput = document.getElementById("ingredient-input");
+const ingredientResults = document.getElementById("ingredient-results");
+
+if (!listElement || !generateButton || !clearButton || !searchButton || !ingredientInput || !ingredientResults) {
+  console.error("One or more required elements are missing in the HTML.");
+}
+
+// ---------------------------
+// Helpers
+// ---------------------------
+function createListItem(ingredient) {
+  const li = document.createElement("li");
+
+  // Text node first so li.firstChild is the ingredient text
+  li.appendChild(document.createTextNode(ingredient));
+
+  const btn = document.createElement("button");
+  btn.textContent = "❌";
+  btn.className = "delete-btn";
+  li.appendChild(btn);
+
+  return li;
+}
+
+function saveList() {
+  const items = [...document.querySelectorAll("#list li")].map(li => li.firstChild.textContent.trim());
+  localStorage.setItem("groceryList", JSON.stringify(items));
+}
+
+function loadList() {
+  const saved = JSON.parse(localStorage.getItem("groceryList"));
+  if (!saved || !Array.isArray(saved)) return;
+  listElement.innerHTML = "";
+  saved.forEach(item => listElement.appendChild(createListItem(item)));
+}
+
+// ---------------------------
+// Event delegation for delete buttons
+// ---------------------------
+listElement.addEventListener("click", (e) => {
+  if (e.target.matches(".delete-btn")) {
+    const li = e.target.closest("li");
+    if (li) {
+      li.remove();
+      saveList();
+    }
+  }
+});
+
+// ---------------------------
+// Generate list from checked meals (example: inputs must exist in your HTML)
+// ---------------------------
+generateButton.addEventListener("click", () => {
+  const selected = document.querySelectorAll('input[type="checkbox"][name="meal"]:checked');
+  listElement.innerHTML = "";
+
+  const ingredientsSet = new Set();
+
+  selected.forEach(cb => {
+    const meal = cb.value;
+    const ingredients = mealIngredients[meal];
+    if (Array.isArray(ingredients)) {
+      ingredients.forEach(i => ingredientsSet.add(i));
+    }
+  });
+
+  if (ingredientsSet.size === 0) {
+    listElement.innerHTML = "<li>No meals selected.</li>";
+    localStorage.removeItem("groceryList");
+    return;
+  }
+
+  ingredientsSet.forEach(i => listElement.appendChild(createListItem(i)));
+  saveList();
+});
+
+// ---------------------------
+// Clear all
+// ---------------------------
+clearButton.addEventListener("click", () => {
+  listElement.innerHTML = "";
+  localStorage.removeItem("groceryList");
+});
+
+// ---------------------------
+// Load on startup
+// ---------------------------
+window.addEventListener("load", loadList);
+
+// ---------------------------
+// Ingredient search
+// ---------------------------
+searchButton.addEventListener("click", () => {
+  const query = ingredientInput.value.trim().toLowerCase();
+  ingredientResults.innerHTML = "";
+
+  if (!query) {
+    ingredientResults.innerHTML = "<p>Please type an ingredient.</p>";
+    return;
+  }
+
+  const matches = Object.keys(mealIngredients).filter(meal =>
+    mealIngredients[meal].some(item => item.toLowerCase().includes(query))
+  );
+
+  if (matches.length === 0) {
+    ingredientResults.innerHTML = "<p>No meals found using that ingredient.</p>";
+    return;
+  }
+
+  const listHtml = matches
+    .map(meal => `<li><strong>${meal}</strong>: ${mealIngredients[meal].join(", ")}</li>`)
+    .join("");
+
+  ingredientResults.innerHTML = `<h3>Meals you can make:</h3><ul>${listHtml}</ul>`;
+});
+  </script>
+</body>
+</html>
