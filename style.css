@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    touch-action: none;
+    font-family: Arial, sans-serif;
+    background: #0b1020;
+}
+
+canvas {
+    display: block;
+    background: linear-gradient(to bottom, #6ec6ff 0%, #e0f6ff 40%, #b0e57c 100%);
+}
+
+/* Overlays (start, game over, pause) */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
+}
+
+.overlay.hidden {
+    display: none;
+}
+
+.overlay h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.overlay p {
+    margin-bottom: 0.5rem;
+}
+
+.overlay button {
+    margin-top: 1rem;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 999px;
+    background: #ff9f43;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.2s ease;
+}
+
+.overlay button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+    background: #ff7f27;
+}
+
+/* Pause button */
+#pauseButton {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 5;
+    font-size: 20px;
+    user-select: none;
+}
+
+/* Small screens */
+@media (max-width: 600px) {
+    .overlay h1 {
+        font-size: 2rem;
+    }
+    .overlay p {
+        font-size: 0.9rem;
+    }
+    .overlay button {
+        font-size: 0.9rem;
+    }
+}

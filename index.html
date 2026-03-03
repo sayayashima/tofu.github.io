@@ -1,121 +1,54 @@
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-<meta charset="UTF-8"> 
-<meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>My Portfolio</title> 
-<style> 
-body { 
-font-family: Arial, sans-serif; 
-line-height: 1.6; 
-margin: 0; 
-padding: 20px; 
-background-color: #f5f5f5; 
-color: #333; 
-} 
-header { 
-background-color: #4a90e2; 
-color: white; 
-padding: 20px; 
-text-align: center; 
-} 
-nav { 
-background-color: #333; 
-padding: 10px; 
-} 
-nav a { 
-color: white; 
-text-decoration: none; 
-padding: 10px; 
-} 
-nav a:hover { 
-background-color: #555; 
-} 
-.container { 
-max-width: 1000px; 
-margin: 0 auto; 
-padding: 20px; 
-background-color: white; 
-} 
-.project { 
-margin-bottom: 40px; 
-border-bottom: 1px solid #eee;
-padding-bottom: 20px; 
-} 
-img { 
-max-width: 100%; 
-height: auto; 
-display: block; 
-margin: 20px 0; 
-} 
-footer { 
-text-align: center; 
-margin-top: 40px; 
-padding: 20px; 
-background-color: #333; 
-color: white; 
-} 
-</style> 
-</head> 
-<body> 
-<!-- Header section with site title --> 
-<header> 
-<h1>Saya Yashima </h1> 
-<p>Hi I'm Saya, and welcome to my website </p> 
-</header> 
-<!-- Navigation menu --> 
-<nav> 
-<a href="index.html">Home</a> 
-<a href="projects.html">Projects</a> 
-<a href="about.html">About Me</a> 
-</nav> 
-<!-- Main content container --> 
-<div class="container"> 
-<main> 
-<article> 
-<h2>Welcome to My Portfolio</h2> 
-<!-- Comments explaining the purpose of this section --> 
-<!-- This section introduces who I am and what I do --> 
-<p>Hello! I'm Saya and I'm from the Philippines �� </p> 
-<!-- Adding some displayed media with specified dimensions --> <img src="https://cdn1.matadornetwork.com/blogs/1/2011/05/philippines-1200x854.jpg"> width="500" height="300"
-<section class="project"> 
-<h3>About ME!!</menu></h3> 
-<!-- Comments explaining the technologies used --> 
-<!-- This project uses HTML5, CSS3, and JavaScript --> 
-<p>This is a Philipino street food called Taho It's my favorite food </p> <img src="https://philippinetravel.jp/wp-content/uploads/2021/06/taho_01.jpg" alt="Blog Screenshot" width="400" height="250"> 
-<!-- An absolute link to an external site --> 
-<p> <a href=https://en.wikipedia.org/wiki/Taho target="_blank">about taho</a></p> 
-</section> 
-<section class="project"> 
-<h3></h3> 
-<!-- Comments explaining the features --> 
-<!-- This includes product listings, cart functionality, and responsive design --> 
-<!-- Another absolute link --> 
-<p>I was in a basketball team!! <a href=https://katsushikaku-hinode.wixsite.com/hinodemini
-target="_blank">Hinode mini basketball club</a></p> 
-</section> 
-<section class="project"> 
-<h3>This is the school I graduaded </h3> 
-<!-- Comments about the API integration --> 
-<!-- This project demonstrates API integration with a weather service --> <p>I was the graduate representative </p> 
-<img src="https://tsukatte.com/wp-content/uploads/2020/03/school.png"> 
-<!-- A third absolute link --> 
-<p> 
-    <a href ="https://school.katsushika.ed.jp/swas/index.php?id=ayase_j" target =_self>(My junior high school)</a><br><hr> <!--targrt_blank : open the link in a blank browser space (new tab /new window)
-    </a>
-target="_blank">My junior high school</a></p> 
-</section> 
-</article> 
-</main> 
-</div> 
-<footer> 
-<!-- Relative links to other pages on the same site --> 
-<p> 
-<a href="index.html">Home</a> | 
-<a href="projects.html">Projects</a> | 
-<a href="about.html">About Me</a> 
-<a href ="index123">index123</a>
-<a href ="index update">index update</a>
-</p> 
-<p>Saya Yashima.</p>
-</footer> </body> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Fruit Catch Plus</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- UI overlays -->
+    <div id="startScreen" class="overlay">
+    <h1>Subject Catch</h1>
+    <p>Move the basket to catch the good subjects!</p>
+
+    <div class="instructions-box">
+        <h2>📘 Subject Guide</h2>
+
+        <p>💻 IT — +50 points (Best subject!)</p>
+        <p>📚 English — +20 points</p>
+        <p>🧪 Science — +25 points</p>
+        <p>🌍 Geography — +15 points</p>
+        <p>📜 History — +10 points</p>
+        <p>🎨 Art — +30 points</p>
+
+        <p>📐 Math — Bomb! (Lose lives)</p>
+
+        <p>⭐ Bonus — Double points</p>
+        <p>❄️ Freeze — Slow motion</p>
+        <p>❤️ Heart — Extra life</p>
+    </div>
+    <div id="gameOverScreen" class="overlay hidden">
+        <h1>Game Over</h1>
+        <p id="finalScoreText">Score: 0</p>
+        <p id="highScoreText">High Score: 0</p>
+        <button id="restartButton">Play Again</button>
+    </div>
+
+
+    <button id="startButton">Start Game</button>
+</div>
+    
+
+    <div id="pauseButton">⏸</div>
+    <div id="pauseOverlay" class="overlay hidden">
+        <h1>Paused</h1>
+        <button id="resumeButton">Resume</button>
+    </div>
+
+    <script src="game.js"></script>
+</body>
 </html>
